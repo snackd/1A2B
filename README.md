@@ -6,4 +6,4 @@
 如果猜對一個數字，但是位置不同，則得1B
 目標是猜數得4A
 
-![程式運行結果](https://i.imgur.com/T1kp4SJ.png)
+![程式運行結果](https://i.imgur.com/Rjvd7Dl.png)
