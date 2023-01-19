@@ -1,5 +1,5 @@
 from pynput import keyboard
-
+from termcolor import cprint
 
 class KeyboardTracer:
     _instance = None
@@ -15,6 +15,7 @@ class KeyboardTracer:
     def on_press(self, key):
         try:
             if key == keyboard.Key.esc:
+                cprint("Press ESC", "red")
                 self.game_flag = 0
 
         except AttributeError:
@@ -22,7 +23,10 @@ class KeyboardTracer:
                 key))
 
     def on_release(self, key):
-        pass
+        if key == keyboard.Key.esc:
+            cprint("Release ESC, Stop Listener", "red")
+            # Stop listener
+            return False
 
     def main(self):
         # ...or, in a non-blocking fashion:
@@ -30,3 +34,7 @@ class KeyboardTracer:
             on_press=self.on_press,
             on_release=self.on_release)
         listener.start()
+
+if __name__ == "__main__":
+    k = KeyboardTracer()
+    k.main()
