@@ -1,4 +1,6 @@
 from keyboard_tracer import KeyboardTracer
+from timer import Timer
+from termcolor import cprint
 from random import randint
 
 
@@ -37,9 +39,14 @@ class OneATwoB:
         return guess_a, guess_b
 
     def game(self):
+        t = Timer()
+        t.start()
+
         count = 1
         ans_list = self.generate_ans()
-        # print("Ans", ans_list)
+
+        # print("Ans:", ans_list)
+        cprint("Ans:"+str(ans_list), "red")
 
         while True:
             if count > 4:
@@ -53,13 +60,21 @@ class OneATwoB:
 
             guess_a, guess_b = self.check_ans(guess_ans, ans_list)
 
-            print("第", count, "次猜數, 猜數為", guess_ans,
-                  ",", guess_a, "A", guess_b, "B")
+            t.record()
+            time_list = t.get_time()
+
+            print("第", count, "次猜數, 猜數為", guess_ans, ",", guess_a,
+                  "A", guess_b, "B, 第", time_list[count-1].seconds, "秒")
 
             if guess_a == 4:
-                print("恭喜答對，答案為:", ans_list)
+                print()
+                print("恭喜答對!")
+                print("答案為:", ans_list)
                 break
             count += 1
+
+        for i in range(len(time_list)):
+            print("第", i+1,"次猜數, 位於第", time_list[i].seconds, "秒")
 
         print("-"*10)
 
@@ -68,10 +83,10 @@ class OneATwoB:
         k.main()
 
         print("-"*10)
-        print("1A2B，產生4位數不重複的密碼，請在四次之內猜中正確答案：")
+        print("1A2B，產生4位數不重複的密碼，請在4次之內猜中正確答案：")
         print()
-        print("如果猜對一個數字且位置相同，則得1A")
-        print("如果猜對一個數字，但是位置不同，則得1B")
+        print("如果猜對1個數字且位置相同，則得1A")
+        print("如果猜對1個數字，但是位置不同，則得1B")
         print("目標是猜數得4A")
         print()
         round_count = 1
@@ -80,7 +95,7 @@ class OneATwoB:
             print()
             print("-"*10)
             print("第", round_count, "輪遊戲")
-            print("按下 ESC 鍵後，不再進行下輪遊戲")
+            cprint("按下 ESC 鍵後，不再進行下輪遊戲", "red")
 
             self.game()
 
